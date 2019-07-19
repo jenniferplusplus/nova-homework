@@ -1,16 +1,21 @@
 var express = require('express');
-var router = express.Router();
 
-router.post('/phase1', phaseOne);
-router.post('/phase2', phaseTwo);
+module.exports = factory;
 
-module.exports = router;
+function factory({db}) {
+    var router = express.Router();
 
-function phaseOne(req, res, next) {
+    router.post('/phase1', phaseOne);
+    router.post('/phase2', phaseTwo);
 
+
+    function phaseOne(req, res, next) {
+
+    }
+
+    function phaseTwo(req, res, next) {
+
+    }
+
+    return router
 }
-
-function phaseTwo(req, res, next) {
-
-}
-

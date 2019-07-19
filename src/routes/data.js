@@ -1,12 +1,19 @@
 var express = require('express');
-var router = express.Router();
 
-router.get('/data/:id', get);
+module.exports = factory;
 
-module.exports = router;
+function factory({db}) {
+    var router = express.Router();
 
-function get(req, res, next){
-    return res.json({
-        id: req.params['id']
-    });
+    router.get('/data/:id', get);
+
+    function get(req, res, next) {
+        return res.json({
+            id: req.params['id']
+        });
+
+    }
+
+    return router;
 }
+
