@@ -8,13 +8,14 @@ function factory({db}) {
   router.get('/data/:id', get);
 
   function get(req, res, next) {
-    return db.models.Upload
+    return db.Upload
       .findOne({
         where: {
           id: req.params['id']
         }
       })
       .then((result) => {
+        if(result === null) return res.status(404).end();
         return res.json(result.dataValues);
       })
       .catch((err) => {

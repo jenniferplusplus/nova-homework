@@ -10,14 +10,16 @@ describe('data route', () => {
   let res;
   let next;
   let db;
+  let Upload;
+  let Keyword;
 
-  // this is a little gross, but the alternative is making real http calls to a live server and that is worse
-  // in a real app, I would prefer to find a way to expose these handler functions directly for testing
+  // This is a little gross, but the alternative is making real http calls to a live server and that is worse
+  // In a real app, I would prefer to find a way to expose these handler functions directly for testing
   let route;
 
   beforeEach(() => {
     db = new SequelizeMock();
-    data = dataFactory({db});
+    data = dataFactory({db: db.models});
     req = httpMocks.createRequest({
       method: 'GET',
       url: '/data/10',
@@ -30,22 +32,22 @@ describe('data route', () => {
     route = data.stack.filter((f => f.route.path === '/data/:id'))[0];
 
     // db models mocked here
-    const Upload = db.define('Upload', {
+    Upload = db.define('Upload', {
       extension: 'txt',
       description: 'affidavit',
       size: 6400,
       md5: 'someMd5HashString'
     }, {});
 
-    const Keyword = db.define('Keyword', {
+    Keyword = db.define('Keyword', {
       keyword: 'signed'
     }, {});
 
-    Upload.associate = function(models) {
+    Upload.associate = function (models) {
       Upload.hasMany(models.Keyword);
     };
 
-    Keyword.associate = function(models) {
+    Keyword.associate = function (models) {
       Keyword.belongsTo(models.Upload)
     };
   });
@@ -58,19 +60,29 @@ describe('data route', () => {
     const handler = route.route.stack[0];
 
     return handler.handle(req, res, next)
-    .then(() => {
+      .then(() => {
         expect(res.statusCode).toBe(200);
-    });
+      });
   });
 
-  test('should return an upload record', () => {
+  test('should return an Upload record', () => {
     const handler = route.route.stack[0];
 
     return handler.handle(req, res, next)
-      .then((val) => {
+      .then(() => {
         const data = res._getJSONData();
         expect(data.id).toBe(10);
       });
   });
 
+  test('should return 404 when no record is found', () => {
+    const handler = route.route.stack[0];
+    req.params.id = 42;
+    Upload.$queueResult(null);
+
+    return handler.handle(req, res, next)
+      .then(() => {
+        expect(res.statusCode).toBe(404);
+      });
+  });
 });
