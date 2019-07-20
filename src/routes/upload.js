@@ -44,6 +44,13 @@ function factory({db}) {
         where: {id: req.body.id}
       })
       .then((upload) => {
+        if(upload === null) {
+          res.status(404);
+          return {
+            error: 'File not found',
+            message: `No file with id ${req.body.id} has been initialized`
+          }
+        }
         const ext = path.extname(file.name).toLowerCase();
         const regex = new RegExp(`\.?${upload.extension.toLowerCase()}`);
         if (!regex.test(ext)) {
@@ -56,8 +63,13 @@ function factory({db}) {
 
         upload.md5 = file.md5;
         upload.size = file.size;
+        // In a real app, presumably the uploaded file would be stored somewhere
+        // In this demo, the file is just discarded after the handler function exits
+        // var uri = getUri(file)
+        // upload.uri = uri
+        // file.mv(uri)
         return upload.save()
-          .then((result) => result.id);
+          .then((result) => { return {id: result.id}});
       })
       .then((response) => {
         return res.json(response);

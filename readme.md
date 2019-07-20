@@ -16,7 +16,9 @@ This project is built with Node.js. It was developed on v12.x. I expect it would
 
 ### The Server
 
-I selected Node.js for this exercise because I'm familiar with it, and if I remember correctly you also use it Nova. In particular I used the Express.js server framework because I've used it before and it has a very mature ecosystem of middleware plugins. I also included some unit tests, mostly as a demonstration of how the system could be tested. 
+I selected Node.js for this exercise because I'm familiar with it, and if I remember correctly it's also used at Nova. In particular I used the Express.js server framework because I've used it before and it has a very mature ecosystem of middleware plugins. I also included some unit tests, mostly as a demonstration of how the system is designed to be testable. 
+
+A real app would have much more logic surrounding error handling and input validations. I would also prefer to define a swagger schema and implement a swagger UI. Most of that work can be done via express middleware packages.
 
 ### The database
 
