@@ -12,7 +12,8 @@ function factory({db}) {
       .findOne({
         where: {
           id: req.params['id']
-        }
+        },
+        include: [{model: db.Keyword}]
       })
       .then((result) => {
         if(result === null) return res.status(404).end();

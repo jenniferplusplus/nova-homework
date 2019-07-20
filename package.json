@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node src/bin/www.js",
+    "start": "node src/bin/www",
     "migrate": "cd src && sequelize db:migrate",
     "test": "jest"
   },

@@ -12,14 +12,20 @@ function factory({db}) {
 
 
   function phaseOne(req, res, next) {
-    const newUpload = db.Upload.build({
-      description: req.body.description,
-      extension: req.body.extension,
-      Keywords: req.body.keywords
-    });
-
-    return newUpload
-      .save()
+    db.Upload
+      .create({
+          description: req.body.description,
+          extension: req.body.extension,
+          Keywords: req.body.keywords.map((v) => {
+            return {keyword: v}
+          })
+        },
+        {
+          include: db.Keyword
+        })
+      .then((res) => {
+        return res;
+      })
       .then((upload) => {
         return res.json({
           id: upload.id
