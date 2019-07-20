@@ -12,7 +12,7 @@ function factory({db}) {
 
 
   function phaseOne(req, res, next) {
-    db.Upload
+    return db.Upload
       .create({
           description: req.body.description,
           extension: req.body.extension,
@@ -39,7 +39,7 @@ function factory({db}) {
   function phaseTwo(req, res, next) {
     const file = req.files.phaseTwo;
 
-    db.Upload
+    return db.Upload
       .findOne({
         where: {id: req.body.id}
       })
