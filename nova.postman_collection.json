@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "f4909b2c-4f0a-41b9-a0e3-e4cef495437c",
+		"name": "nova",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "phase1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"description\": \"driver license\",\n\t\"extension\": \"jpg\",\n\t\"keywords\": [\n\t\t\"texas\"\n\t\t]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/phase1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"phase1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "phase2",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "phaseTwo",
+							"type": "file",
+							"src": "/C:/Users/jenni/OneDrive/Pictures/Me/Jenn-20190408-1400.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/phase2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"phase2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
