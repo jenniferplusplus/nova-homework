@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node src/bin/www.js",
-    "build": "babel src --out-dir dist  --copy-files",
-    "build-dev": "babel src --out-dir dist --source-maps --copy-files",
-    "clean": "rm -rf dist"
+    "migrate": "cd src && sequelize db:migrate"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -17,5 +15,6 @@
     "sqlite3": "^4.0.9"
   },
   "devDependencies": {
+    "sequelize-cli": "^5.5.0"
   }
 }

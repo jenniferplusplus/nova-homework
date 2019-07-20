@@ -1,23 +1,14 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Uploads', {
+    return queryInterface.createTable('Keywords', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      extension: {
-        type: Sequelize.STRING
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      size: {
-        type: Sequelize.INTEGER
-      },
-      md5: {
+      keyword: {
         type: Sequelize.STRING
       },
       createdAt: {
@@ -31,6 +22,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Uploads');
+    return queryInterface.dropTable('Keywords');
   }
 };

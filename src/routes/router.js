@@ -1,16 +1,19 @@
 var express = require('express');
-var router = express.Router();
-var db = require('../models');
 
-var upload = require('./upload');
-var error = require('./error');
-var data = require('./data');
+function factory({db}) {
+  var router = express.Router();
 
-router.use(upload(db));
-router.use(data(db));
+  var upload = require('./upload');
+  var error = require('./error');
+  var data = require('./data');
+
+  router.use(upload({db}));
+  router.use(data({db}));
 
 // Must be last
-router.use(error);
+  router.use(error);
+  return router;
+}
 
 
-module.exports = router;
+module.exports = factory;

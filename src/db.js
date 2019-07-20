@@ -1,15 +1,6 @@
-var sequelize = new Sequelize('database', 'username', 'password', {
-    host: 'localhost',
+const sequelize = new Sequelize({
     dialect: 'sqlite',
-
-    pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-    },
-
-    // SQLite only
-    storage: '../dist/nova.sqlite'
+    storage: '../database.sqlite3'
 });
 
-module.exports = sequelize
+module.exports = sequelize;

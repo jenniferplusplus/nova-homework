@@ -1,7 +1,7 @@
 var express = require('express');
-var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var db = require('./models');
 
 var router = require('./routes/router');
 
@@ -11,8 +11,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(router);
+// Add routes
+app.use(router({db}));
 
 module.exports = app;

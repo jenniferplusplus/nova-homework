@@ -6,8 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     size: DataTypes.INTEGER,
     md5: DataTypes.STRING
   }, {});
+
   Upload.associate = function(models) {
-    // associations can be defined here
+    Upload.hasMany(models.Keyword);
   };
   return Upload;
 };
