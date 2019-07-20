@@ -1,21 +1,60 @@
 var express = require('express');
+const fileMiddleware = require('express-fileupload');
+const path = require('path');
 
 module.exports = factory;
 
 function factory({db}) {
-    var router = express.Router();
+  var router = express.Router();
 
-    router.post('/phase1', phaseOne);
-    router.post('/phase2', phaseTwo);
+  router.post('/phase1', phaseOne);
+  router.put('/phase2', fileMiddleware(), phaseTwo);
 
 
-    function phaseOne(req, res, next) {
+  function phaseOne(req, res, next) {
+    const newUpload = db.Upload.build({
+      description: req.body.description,
+      extension: req.body.extension,
+      Keywords: req.body.keywords
+    });
 
-    }
+    return newUpload
+      .save()
+      .then((upload) => {
+        return res.json({
+          id: upload.id
+        });
+      })
+      .catch((err) => {
+        return next(err);
+      });
+  }
 
-    function phaseTwo(req, res, next) {
+  function phaseTwo(req, res, next) {
+    const file = req.files.phaseTwo;
 
-    }
+    db.Upload
+      .findOne({
+        where: {id: req.body.id}
+      })
+      .then((upload) => {
+        const ext = path.extname(file.name);
+        const regex = new RegExp(`\.?${upload.extension}`);
+        if (!regex.test(ext)) return res.status(404);
 
-    return router
+        upload.md5 = file.md5;
+        upload.size = file.size;
+        return upload.save();
+      })
+      .then((upload) => {
+        return res.json({
+          id: upload.id
+        });
+      })
+      .catch((err) => {
+        return next(err);
+      });
+  }
+
+  return router
 }
