@@ -44,18 +44,23 @@ function factory({db}) {
         where: {id: req.body.id}
       })
       .then((upload) => {
-        const ext = path.extname(file.name);
-        const regex = new RegExp(`\.?${upload.extension}`);
-        if (!regex.test(ext)) return res.status(404);
+        const ext = path.extname(file.name).toLowerCase();
+        const regex = new RegExp(`\.?${upload.extension.toLowerCase()}`);
+        if (!regex.test(ext)) {
+          res.status(409);
+          return {
+            error: 'Incorrect file type',
+            message: `The required type for this file is {${upload.extension}} but the uploaded file had type {${ext}}`
+          }
+        }
 
         upload.md5 = file.md5;
         upload.size = file.size;
-        return upload.save();
+        return upload.save()
+          .then((result) => result.id);
       })
-      .then((upload) => {
-        return res.json({
-          id: upload.id
-        });
+      .then((response) => {
+        return res.json(response);
       })
       .catch((err) => {
         return next(err);
